@@ -1,25 +1,45 @@
 ---
-title: "Untitled"
-output: 
+title: "Women in Music"
+output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+    theme: journal
+    source_code: embed
 ---
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(shiny)
+library(jsonlite)
+library(maptools)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(purrr)
+library(leaflet)
+library(plotly)
 ```
 
-Column {data-width=650}
+Intro Page
+======================================================
+
+Column {data-width=75}{.tabset}
 -----------------------------------------------------------------------
 
-### Chart A
+### Playlist 1
 
 ```{r}
 
 ```
 
-Column {data-width=350}
+### Playlist 2
+
+```{r}
+
+```
+
+Column {data-width=500}
 -----------------------------------------------------------------------
 
 ### Chart B
@@ -29,6 +49,18 @@ Column {data-width=350}
 ```
 
 ### Chart C
+
+```{r}
+
+```
+
+Second Page
+======================================================
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart D
 
 ```{r}
 
