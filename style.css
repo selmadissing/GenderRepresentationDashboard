@@ -1,6 +1,5 @@
 @font-face {
-    font-family: Pokemon;
-    src: url(PokemonSolid.ttf);
+    font-family: 'comic sans';
 }
 
 .navbar-inverse {
@@ -9,6 +8,5 @@
 }
 
 .navbar-inverse .navbar-brand {
-    font-family: 'Pokemon';
     color: #2780e3;
 }
