@@ -1,0 +1,69 @@
+---
+title: "Women in Music"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source_code: embed
+    theme: journal
+    #css: style.css
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(shiny)
+library(jsonlite)
+library(maptools)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(purrr)
+library(leaflet)
+library(plotly)
+```
+
+Intro Page
+======================================================
+
+Column {data-width=75}{.tabset}
+-----------------------------------------------------------------------
+
+### Playlist 1
+
+```{r}
+
+```
+
+### Playlist 2
+
+```{r}
+
+```
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
+Second Page
+======================================================
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart D
+
+```{r}
+
+```
+
