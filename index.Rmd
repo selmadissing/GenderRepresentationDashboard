@@ -5,8 +5,8 @@ output:
     orientation: columns
     vertical_layout: fill
     source_code: embed
-    theme: journal
-    #css: style.css
+    #theme: journal
+    css: style.css
 ---
 
 ```{r setup, include=FALSE}

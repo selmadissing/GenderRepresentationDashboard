@@ -1,12 +1,15 @@
 @font-face {
-    font-family: 'comic sans';
+    font-family: Helvetica;
+    font-weight: 48px;
+    color: #aaff00;
 }
 
 .navbar-inverse {
-    background-color: #FFCA05;
-    border-color: #FFCA05;
+    background-color: #ff1a75;
 }
 
 .navbar-inverse .navbar-brand {
-    color: #2780e3;
+    font-size: 30px;
+    font-weight: 900;
+    font-family: "Lucida Console", monospace;
 }
