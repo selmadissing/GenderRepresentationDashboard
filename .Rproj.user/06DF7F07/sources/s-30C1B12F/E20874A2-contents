@@ -4,12 +4,13 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
-    source_code: embed
+    #source_code: embed
     #theme: journal
     css: style.css
+  runtime: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 library(flexdashboard)
 library(shiny)
 library(jsonlite)
