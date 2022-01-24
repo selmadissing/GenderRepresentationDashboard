@@ -3,7 +3,7 @@
     "path": "~/Documents/2. BSc Artificial Intelligence/Honours/GenderRepresentationDashboard/style.css",
     "project_path": "style.css",
     "type": "css",
-    "hash": "933634357",
+    "hash": "961590361",
     "contents": "",
     "dirty": false,
     "created": 1642541528372.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "10,31",
-        "scrollLine": "0"
+        "cursorPosition": "23,5",
+        "scrollLine": "6"
     },
     "folds": "",
-    "lastKnownWriteTime": 1642756838,
+    "lastKnownWriteTime": 1643043234,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1642756838688,
+    "last_content_update": 1643043234455,
     "read_only": false,
     "read_only_alternatives": []
 }

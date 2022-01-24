@@ -1,15 +1,26 @@
 @font-face {
-    font-family: Helvetica;
-    font-weight: 48px;
-    color: #aaff00;
+    font-family: Monaco;
+    font-size: 48px;
+    font-weight: 50;
+    color: #ff1a75;
 }
 
 .navbar-inverse {
-    background-color: #ff1a75;
+    background-color: #ff66b3;
+    font-family: Monaco;
+    font-size: 13px;
 }
 
 .navbar-inverse .navbar-brand {
-    font-size: 30px;
-    font-weight: 900;
-    font-family: "Lucida Console", monospace;
+    font-size: 17px;
+    font-weight: 500;
+    font-family: Monaco;
+}
+
+.nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color: #66ff33;
+}
+
+.sidebar {
+    background-color: #ff66b3;
 }
