@@ -25,9 +25,8 @@ library(plotly)
 wide <- read.csv("wide.csv")
 long <- read.csv("long.csv")
 
-
-
-
+new <- wide %>% 
+  mutate(attitude=(Q1+Q2+Q3+Q4+Q5+Q6+Q7)/7)
 
 
 
@@ -59,8 +58,8 @@ Column
 ### Chart A
 
 ```{r}
-ggplot(wide, aes(x=timelisteningtomusic, y=whereareyoufrom, color=gender)) + 
-    geom_point(size=6)
+ggplot(new, aes(x=gender, y=attitude)) + 
+    geom_col()
 ```
 
 
