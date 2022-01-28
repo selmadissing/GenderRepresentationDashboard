@@ -7,6 +7,7 @@ output:
     #source_code: embed
     theme: journal
     #css: style.css
+    self_contained: false
 ---
 
 ```{r setup, include = FALSE}
@@ -20,9 +21,11 @@ library(dplyr)
 library(purrr)
 library(leaflet)
 library(plotly)
+library(forcats)
 
 wide <- read.csv("wide.csv")
 long <- read.csv("long.csv")
+averages <- read.csv("AveragePerQuestionPerSong.csv")
 
 new <- wide %>% 
   mutate(attitude=(Q1+Q2+Q3+Q4+Q5+Q6+Q7)/7)
@@ -42,29 +45,83 @@ new <- wide %>%
 Main Findings
 ======================================================
 
-Column {.sidebar data-width=150}
+Column {.tabset data-width=161}
 -----------------------------------------------------------------------
 
-Intro text about the project + both playlists with the songs.
+### Feminist
+
+Maybe some nice text about the feminist songs 
+
+<iframe src="https://open.spotify.com/embed/playlist/7mWbXdE4Hky7MIt8BOjryX?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
+### Neutral
+
+Maybe some nice text about the neutral songs
+
+<iframe src="https://open.spotify.com/embed/playlist/2ttgDPSxCi9oPbOEQCrLvl?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
+Column {.tabset data-width=500}
+-----------------------------------------------------------------------
+
+### Q1
 
 ```{r}
+averages %>%
+  mutate(Song = fct_reorder(Song, desc(Order))) %>%
+  ggplot(aes(x=Song, y=Q1, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw() + ylim(0,6) + ggtitle("I enjoyed the lyrics of this excerpt")
+```
+
+### Q2
+
+```{r}
+averages %>%
+  mutate(Song = fct_reorder(Song, desc(Order))) %>%
+  ggplot(aes(x=Song, y=Q2, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw() + ylim(0,6) + ggtitle("I think these lyrics represented \n men and/or women fairly")
 
 ```
 
-Column
------------------------------------------------------------------------
-
-### Chart A
+### Q3
 
 ```{r}
-ggplot(new, aes(x=gender, y=attitude)) + 
-    geom_col()
+averages %>%
+  mutate(Song = fct_reorder(Song, desc(Order))) %>%
+  ggplot(aes(x=Song, y=Q3, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("After listening to this excerpt, I feel positively \n about gender representation in music")
+```
+
+### Q4
+
+```{r}
+averages %>%
+  mutate(Song = fct_reorder(Song, desc(Order))) %>%
+  ggplot(aes(x=Song, y=Q4, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("I feel represented in the lyrics I just heard")
+```
+
+### Q5
+
+```{r}
+averages %>%
+  mutate(Song = fct_reorder(Song, desc(Order))) %>%
+  ggplot(aes(x=Song, y=Q5, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("These lyrics create a positive message")
+```
+
+### Q6
+
+```{r}
+averages %>%
+  mutate(Song = fct_reorder(Song, desc(Order))) %>%
+  ggplot(aes(x=Song, y=Q6, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("These lyrics make me feel uncomfortable")
+```
+
+### Q7
+
+```{r}
+averages %>%
+  mutate(Song = fct_reorder(Song, desc(Order))) %>%
+  ggplot(aes(x=Song, y=Q7, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("This excerpt had feminist connotations in its lyrics")
 ```
 
 
-
-
-Column
+Column {data-width=350}
 -----------------------------------------------------------------------
 
 ### Chart C
@@ -75,9 +132,10 @@ wide %>%
   geom_histogram(binwidth = 0.2)
 ```
 
-### Chart D
+### Chart Dooo
 
 ```{r}
+
 
 ```
 
@@ -89,8 +147,7 @@ Column
 
 ### Chart D
 
-```{r}
-
+```{r }
 ```
 
 Literature
