@@ -6,9 +6,14 @@ output:
     vertical_layout: fill
     #source_code: embed
     theme: journal
-    #css: style.css
+
+    css: style.css
     self_contained: false
 ---
+
+<p style="border:3px; border-style:double; border-color:#ffffff; padding: 1em; font-family:Monaco; font-size:90%; text-align:center; font-weight:bold; color:#000000; background-color:#66ccff">
+To what extent is the attitude towards gender representation in the music industry predicted by tone of the song and moderated by gender?
+</p>
 
 ```{r setup, include = FALSE}
 library(flexdashboard)
@@ -26,8 +31,10 @@ library(forcats)
 wide <- read.csv("wide.csv")
 long <- read.csv("long.csv")
 averages <- read.csv("AveragePerQuestionPerSong.csv")
+averages_both <- read.csv("AveragePerQuestionPerSongBoth.csv")
 
-new <- wide %>% 
+adding_attitude <- wide %>% 
+  group_by(condition) %>%
   mutate(attitude=(Q1+Q2+Q3+Q4+Q5+Q6+Q7)/7)
 
 
@@ -45,20 +52,19 @@ new <- wide %>%
 Main Findings
 ======================================================
 
-Column {.tabset data-width=161}
+
+
+
+Column {.tabset data-width=175}
 -----------------------------------------------------------------------
 
 ### Feminist
 
-Maybe some nice text about the feminist songs 
-
-<iframe src="https://open.spotify.com/embed/playlist/7mWbXdE4Hky7MIt8BOjryX?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+<iframe src="https://open.spotify.com/embed/playlist/7mWbXdE4Hky7MIt8BOjryX?utm_source=generator" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
 ### Neutral
 
-Maybe some nice text about the neutral songs
-
-<iframe src="https://open.spotify.com/embed/playlist/2ttgDPSxCi9oPbOEQCrLvl?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+<iframe src="https://open.spotify.com/embed/playlist/2ttgDPSxCi9oPbOEQCrLvl?utm_source=generator" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
 Column {.tabset data-width=500}
 -----------------------------------------------------------------------
@@ -68,7 +74,17 @@ Column {.tabset data-width=500}
 ```{r}
 averages %>%
   mutate(Song = fct_reorder(Song, desc(Order))) %>%
-  ggplot(aes(x=Song, y=Q1, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw() + ylim(0,6) + ggtitle("I enjoyed the lyrics of this excerpt")
+  ggplot(aes(x=Song, y=Q1, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + ylim(0,6) + 
+  labs(
+    x = "",
+    y = "Scale",
+    title = "Explanation",
+    subtitle = " (Q1) I enjoyed the lyrics of this excerpt") +
+  scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+  theme_bw() +
+  theme(
+    text = element_text(family = "Palatino", size = 9)
+  )
 ```
 
 ### Q2
@@ -124,18 +140,38 @@ averages %>%
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart C
+### Attitude difference
 
 ```{r}
-wide %>% 
-  ggplot(aes(x = genderrepimportant, colour=age)) +
-  geom_histogram(binwidth = 0.2)
+ggplot(adding_attitude, aes(x = gender, y=attitude, fill = gender)) +
+  geom_bar(position="dodge", stat="identity") + facet_grid(. ~ condition) +
+  labs(
+    x = "Gender",
+    y = "Attitude",
+    caption = "lol") +
+  scale_fill_manual(values=c("#4BC5BA", "#7D4BC5")) +
+  theme_bw() +
+    theme(
+    text = element_text(family = "Palatino", size = 10))
 ```
 
-### Chart Dooo
+### Difference in gender representation in lyrics
 
 ```{r}
+come <- averages_both %>%
+  group_by(Gender) 
 
+ggplot(come, aes(x = Song, y=Q4, fill = Gender)) +
+  geom_bar(position="dodge", stat="identity") + facet_grid(Condition ~ .) +
+  coord_flip() +
+  labs(
+    x = "",
+    y = "Scale",
+    caption = "lol") +
+  scale_fill_manual(values=c("#4BC5BA", "#7D4BC5")) +
+  theme_bw() +
+    theme(
+    text = element_text(family = "Palatino", size = 10))
 
 ```
 

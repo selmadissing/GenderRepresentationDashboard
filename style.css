@@ -1,26 +1,27 @@
-@font-face {
-    font-family: Monaco;
-    font-size: 48px;
-    font-weight: 50;
-    color: #ff1a75;
-}
 
 .navbar-inverse {
-    background-color: #ff66b3;
-    font-family: Monaco;
-    font-size: 13px;
-}
-
-.navbar-inverse .navbar-brand {
-    font-size: 17px;
-    font-weight: 500;
-    font-family: Monaco;
+    background-color: #ff9933;
 }
 
 .nav-tabs-custom > .nav-tabs > li.active {
-  border-top-color: #66ff33;
+  border-top-color: #ffb366;
 }
 
-.sidebar {
-    background-color: #ff66b3;
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+    background-color: #ffb366;
+    color: white;
 }
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+  color: white;
+  background-color: #ffb366;
+}
+
+.navbar-default .navbar-brand > li > a:hover,
+.navbar-default .navbar-brand > li > a:focus {
+    background-color: #ffb366;
+    color: white;
+}
+
