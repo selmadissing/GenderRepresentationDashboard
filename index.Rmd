@@ -11,10 +11,6 @@ output:
     self_contained: false
 ---
 
-<p style="border:3px; border-style:double; border-color:#ffffff; padding: 1em; font-family:Monaco; font-size:90%; text-align:center; font-weight:bold; color:#000000; background-color:#66ccff">
-To what extent is the attitude towards gender representation in the music industry predicted by tone of the song and moderated by gender?
-</p>
-
 ```{r setup, include = FALSE}
 library(flexdashboard)
 library(shiny)
@@ -27,6 +23,8 @@ library(purrr)
 library(leaflet)
 library(plotly)
 library(forcats)
+library(RColorBrewer)
+library(waffle)
 
 wide <- read.csv("wide.csv")
 long <- read.csv("long.csv")
@@ -38,22 +36,90 @@ adding_attitude <- wide %>%
   mutate(attitude=(Q1+Q2+Q3+Q4+Q5+Q6+Q7)/7)
 
 
+what <- wide %>%
+  filter(gender=="Male") %>%
+  arrange(genderrep) %>%
+  group_by(genderrep) %>%
+  summarise(n = n()) %>%
+  mutate(num = sum(n))
 
-
-
-
-
+df2 <- wide %>%
+  filter(gender=="Female") %>%
+  arrange(genderrep) %>%
+  group_by(genderrep) %>%
+  summarise(n = n()) %>%
+  mutate(Freq = n/sum(n))
 
 ```
 
 
 
 
-Main Findings
+Introduction
 ======================================================
 
+Column {data-width=175}
+-----------------------------------------------------------------------
+
+### Introduction 
+Gender representation should be considered across all professional fields, and the music industry is not an exception. Despite the fact that there are definitely female music superstars, the music industry remains a place with not much female representation (Bernabé-Villodre et al., 2018). Female artists are seen changing their public image, transitioning from one “era” in their career to another to stay relevant, whilst that is rarely the case for male artists. The dopamine-stimulatory threshold among listeners is lower for male music artists rather than female music artists, as male artists can stay in the same genre for ages and still stay desirable. Furthermore, 98% of producers in the music industry are male (Statista, 2021).<br>
+<br>
+Despite the aforementioned information, the lack of gender representation remains a mystery to many, due to the fact some of the loudest musicians are female. However, that is not the case for all levels of fame, and our study aims to investigate attitude towards gender representation in the music industry, following exposure to songs with a feminist tone. We also want to see whether the attitude would be different among men and women. Therefore, the following research question was formulated:<br>
+<br>
+RQ: To what extent is the attitude towards gender representation in the music industry predicted by tone of the song and moderated by gender?
+
+### Motivation
+<i>Ellie</i><br>
+bla bla bla
+
+<i>Roos</i><br>
+bla bla bla
+
+<i>Selma</i><br>
+bla bla bla
+
+<i>Sonya</i><br>
+bla bla bla
 
 
+
+
+
+Column {.tabset data-width=500}
+-----------------------------------------------------------------------
+### Attitude difference
+
+```{r}
+ggplot(adding_attitude, aes(x = gender, y=attitude, fill = gender)) +
+  geom_bar(position="dodge", stat="identity") + facet_grid(. ~ condition) +
+  labs(
+    x = "Gender",
+    y = "Attitude") +
+  scale_fill_manual(values=c("#F25C54", "#F7B267")) +
+  theme_bw() + 
+    theme(
+    text = element_text(family = "Palatino", size = 10))
+```
+
+### Difference in gender representation in lyrics
+
+```{r}
+come <- averages_both %>%
+  group_by(Gender) 
+
+ggplot(come, aes(x = Song, y=Q4, fill = Gender)) +
+  geom_bar(position="dodge", stat="identity") +
+  coord_flip() +
+  labs(
+    x = "",
+    y = "Scale",
+    caption = "lol") +
+  scale_fill_manual(values=c("#4BC5BA", "#7D4BC5")) +
+  theme_bw() +
+    theme(
+    text = element_text(family = "Palatino", size = 10))
+
+```
 
 Column {.tabset data-width=175}
 -----------------------------------------------------------------------
@@ -66,10 +132,13 @@ Column {.tabset data-width=175}
 
 <iframe src="https://open.spotify.com/embed/playlist/2ttgDPSxCi9oPbOEQCrLvl?utm_source=generator" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
-Column {.tabset data-width=500}
------------------------------------------------------------------------
 
-### Q1
+
+Results
+======================================================
+Column {.tabset data-width=800}
+-----------------------------------------------------------------------
+### Enjoyment
 
 ```{r}
 averages %>%
@@ -87,7 +156,7 @@ averages %>%
   )
 ```
 
-### Q2
+### Equality
 
 ```{r}
 averages %>%
@@ -96,7 +165,7 @@ averages %>%
 
 ```
 
-### Q3
+### Representation
 
 ```{r}
 averages %>%
@@ -104,7 +173,7 @@ averages %>%
   ggplot(aes(x=Song, y=Q3, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("After listening to this excerpt, I feel positively \n about gender representation in music")
 ```
 
-### Q4
+### Included
 
 ```{r}
 averages %>%
@@ -112,7 +181,7 @@ averages %>%
   ggplot(aes(x=Song, y=Q4, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("I feel represented in the lyrics I just heard")
 ```
 
-### Q5
+### Message
 
 ```{r}
 averages %>%
@@ -120,7 +189,7 @@ averages %>%
   ggplot(aes(x=Song, y=Q5, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("These lyrics create a positive message")
 ```
 
-### Q6
+### Uncomfortableness
 
 ```{r}
 averages %>%
@@ -128,7 +197,7 @@ averages %>%
   ggplot(aes(x=Song, y=Q6, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("These lyrics make me feel uncomfortable")
 ```
 
-### Q7
+### Connotations
 
 ```{r}
 averages %>%
@@ -136,65 +205,85 @@ averages %>%
   ggplot(aes(x=Song, y=Q7, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("This excerpt had feminist connotations in its lyrics")
 ```
 
-
-Column {data-width=350}
+Column {data-width=200}
 -----------------------------------------------------------------------
+### Explanation
 
-### Attitude difference
 
-```{r}
-ggplot(adding_attitude, aes(x = gender, y=attitude, fill = gender)) +
-  geom_bar(position="dodge", stat="identity") + facet_grid(. ~ condition) +
-  labs(
-    x = "Gender",
-    y = "Attitude",
-    caption = "lol") +
-  scale_fill_manual(values=c("#4BC5BA", "#7D4BC5")) +
-  theme_bw() +
-    theme(
-    text = element_text(family = "Palatino", size = 10))
-```
-
-### Difference in gender representation in lyrics
-
-```{r}
-come <- averages_both %>%
-  group_by(Gender) 
-
-ggplot(come, aes(x = Song, y=Q4, fill = Gender)) +
-  geom_bar(position="dodge", stat="identity") + facet_grid(Condition ~ .) +
-  coord_flip() +
-  labs(
-    x = "",
-    y = "Scale",
-    caption = "lol") +
-  scale_fill_manual(values=c("#4BC5BA", "#7D4BC5")) +
-  theme_bw() +
-    theme(
-    text = element_text(family = "Palatino", size = 10))
-
-```
-
-Data
+Methods
 ======================================================
 
 Column
 -----------------------------------------------------------------------
 
-### Chart D
+### Infographics, materials and procedure
+```{r figures-side, fig.show="hold", out.width="50%"}
 
-```{r }
+#myPalette <- brewer.pal(7, "Set2") 
+#piepercentMale<- round(100*df$Freq/sum(df$Freq), 1)
+#piepercentFemale<- round(100*df2$Freq/sum(df2$Freq), 1)
+
+#pie(df$Freq , main="Male", labels = piepercentMale,  border="white", col=myPalette)
+#pie(df2$Freq , main="Female", labels = piepercentFemale,  border="white", col=myPalette)
+#legend("topright", c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree"), cex = 0.4,
+   #fill = myPalette)
+
+ggplot(what, aes(fill = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree"), values = what$num)) +
+  geom_waffle(n_rows = 16, size = 0.33, colour = "white") +
+  scale_fill_manual(name = NULL,
+                    values = c("#ffb3cc", "#ff99bb", "#ff80aa", "#ff6699", "#ff4d88", "#ff3377", "#ff1a66"),
+                    labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree")) +
+  coord_equal() +
+  theme_void()
 ```
 
-Literature
-======================================================
+Column 
+-----------------------------------------------------------------------
+###
+<div style="position: relative; width: 100%; height: 0; padding-top: 133.3333%;
+ padding-bottom: 48px; margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+ border-radius: 8px; will-change: transform;">
+  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+    src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAE3IlLVzP0&#x2F;view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+  </iframe>
+</div>
 
+
+Evaluations
+======================================================
 Column
 -----------------------------------------------------------------------
 
-### Chart D
+### Conclusion
 
 ```{r}
 
 ```
+
+Column
+-----------------------------------------------------------------------
+
+### Limitations
+<b>Sample</b>:<br>
+<i>Gender distribution</i>:<br>
+The total sample contained entries from 99 women, 63 men and 8 non-binary people. Because of the low amount of non-binary respondents, these entries were not taken into account in the final sample. Because of this, the results only show comparisons of people that identify within the traditional gender binary. This does not show a complete picture of the actual population and is an interesting topic to explore within future research.<br>
+After filtering for unusable entries, entries from 98 women and 57 men remained. These amounts differ from each other quite a bit but are compared within our analysis regardless. The difference in sample size could possibly act as a confounder and be responsible for some of the found differences in attitude.<br>
+<br>
+<i>Mostly European participants</i>:<br>
+When asked about their continent of origin, by far the most participants (137) responded with Europe. The found results are thus not applicable for all countries or cultures, but mostly for Western countries.<br>
+<br>
+<b>Survey</b>:<br>
+<i>English proficiency</i>:<br>
+Because we did not ask the participants about their level of English, we have no way to control this. A considerable amount of our survey refers to the interpretation of song lyrics, so if these lyrics are not understood correctly this might have influenced the results.<br>
+<br>
+<i>Actual listening</i>:<br>
+Within Qualtrics, there is no way to check if a participant has actually listened to the song excerpt, and has read the lyrics.
+
+
+### Further Research
+1. Predisposition<br>
+Investigate someone’s existing predisposition towards feminism/gender representation as a predictor of their attitude toward gender representation in the music industry (post exposure to feminist-toned songs).<br>
+<br>
+2. Priming<br> 
+Priming participant with facts about gender representation (not just in the music industry, but in general), before exposure to the feminist-tones song or the control-condition song. Investigate whether priming would influence the participant’s attitude towards gender representation in the music industry.
 
