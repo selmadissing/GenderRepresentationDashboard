@@ -1,0 +1,6 @@
+﻿;Sum Sq;df;F-value;p-value
+(Intercept);39064;1;1678.60;< 2.2 E-16
+Gender;36;1;1.53;0.22
+Song type;268;1;11.50;0.00089
+Interaction;15;1;0.65;0.42
+Residuals;3514;1;;

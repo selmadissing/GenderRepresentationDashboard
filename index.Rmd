@@ -23,11 +23,13 @@ library(plotly)
 library(forcats)
 library(RColorBrewer)
 library(waffle)
+library(DT)
+library(knitr)
+library(kableExtra)
 
 wide <- read.csv("wide.csv")
 long <- read.csv("long.csv")
 averages <- read.csv("AveragePerQuestionPerSong.csv")
-averages_both <- read.csv("AveragePerQuestionPerSongBoth.csv")
 
 adding_attitude <- wide %>% 
   group_by(condition) %>%
@@ -86,32 +88,32 @@ Introduction
 Column {data-width=185}
 -----------------------------------------------------------------------
 
-### Introduction 
-<p style="font-size:13px;">Gender representation should be considered across all professional fields, and the music industry is not an exception. Despite the fact that there are definitely female music superstars, the music industry remains a place with not much female representation (Bernabé-Villodre et al., 2018). Female artists are seen changing their public image, transitioning from one “era” in their career to another to stay relevant, whilst that is rarely the case for male artists. The dopamine-stimulatory threshold among listeners is lower for male music artists rather than female music artists, as male artists can stay in the same genre for ages and still stay desirable. Furthermore, 98% of producers in the music industry are male (Statista, 2021).<br>
+### <font color="#000000">Introduction</font> 
+<p style="font-size:13px; color:black;">Gender representation should be considered across all professional fields, and the music industry is not an exception. Despite the fact that there are definitely female music superstars, the music industry remains a place with not much female representation (Bernabé-Villodre et al., 2018). Female artists are seen changing their public image, transitioning from one “era” in their career to another to stay relevant, whilst that is rarely the case for male artists. The dopamine-stimulatory threshold among listeners is lower for male music artists rather than female music artists, as male artists can stay in the same genre for ages and still stay desirable. Furthermore, 98% of producers in the music industry are male (Statista, 2021).<br>
 <br>
 Despite the aforementioned information, the lack of gender representation remains a mystery to many, due to the fact some of the loudest musicians are female. However, that is not the case for all levels of fame, and our study aims to investigate attitude towards gender representation in the music industry, following exposure to songs with a feminist tone. We also want to see whether the attitude would be different among men and women. Therefore, the following research question was formulated:<br>
 <br>
 RQ: To what extent is the attitude towards gender representation in the music industry predicted by tone of the song and moderated by gender?</p>
 
-### Motivation
-<i>Ellie</i><br>
-<p style="font-size:13px;">The power of music lyrics is one that has always had quite an effect on me and my mood in many ways. I have always had specific songs that I refer to for whatever mood I’m in because the lyrics hold a certain power to change my mood or mindset. Feminist lyrics often carry an important message for all people to hear, not just women- I wanted to see if everyone listened!</p>
+### <font color="#000000">Motivation</font> 
+<i><p style="color:black;">Ellie</p></i>
+<p style="font-size:13px; color:black;">The power of music lyrics is one that has always had quite an effect on me and my mood in many ways. I have always had specific songs that I refer to for whatever mood I’m in because the lyrics hold a certain power to change my mood or mindset. Feminist lyrics often carry an important message for all people to hear, not just women- I wanted to see if everyone listened!</p>
 
-<i>Roos</i><br>
-<p style="font-size:13px;">From when I was a small kid, I have always enjoyed music to the fullest. At age 7, I was given an off-brand iPod for Christmas that I used tirelessly for years, I was enrolled in dance classes throughout primary school, and in high school, I took my dance and music courses just as seriously as the regular ones. Being able to continue learning about music and music listening throughout this course, but in a more academic way, has been a wonderful experience and has inspired me to look into musicology as a possible future field of study.</p>
+<i><p style="color:black;">Roos</p></i>
+<p style="font-size:13px; color:black;">From when I was a small kid, I have always enjoyed music to the fullest. At age 7, I was given an off-brand iPod for Christmas that I used tirelessly for years, I was enrolled in dance classes throughout primary school, and in high school, I took my dance and music courses just as seriously as the regular ones. Being able to continue learning about music and music listening throughout this course, but in a more academic way, has been a wonderful experience and has inspired me to look into musicology as a possible future field of study.</p>
 
-<i>Selma</i><br>
-<p style="font-size:13px;"> I find the way a message can be spread through music lyrics and make an impact very intriguing. Thus
+<i><p style="color:black;">Selma</p></i>
+<p style="font-size:13px; color:black;"> I find the way a message can be spread through music lyrics and make an impact very intriguing. Thus
 </p>
 
-<i>Sonya</i><br>
-<p style="font-size:13px;">From an early age, I have been actively seeking every opportunity to tie music into my life: I have been playing various musical instruments and singing, participating in numerous talent shows and school musicals, attending concerts, volunteering as a music teacher at an orphanage in Vietnam, and collaborating with my friends on musical production. Growing up abroad and having to navigate through life in a country that’s my own but not entirely, made me rely more heavily on music - a universal language. The Data Science of Everyday Music Listening has transformed my intuitive understanding of music into an empirical and academic understanding of it, which has been enlightening.</p>
+<i><p style="color:black;">Sonya</p></i>
+<p style="font-size:13px; color:black;">From an early age, I have been actively seeking every opportunity to tie music into my life: I have been playing various musical instruments and singing, participating in numerous talent shows and school musicals, attending concerts, volunteering as a music teacher at an orphanage in Vietnam, and collaborating with my friends on musical production. Growing up abroad and having to navigate through life in a country that’s my own but not entirely, made me rely more heavily on music - a universal language. The Data Science of Everyday Music Listening has transformed my intuitive understanding of music into an empirical and academic understanding of it, which has been enlightening.</p>
 
 
 
 Column {data-width=500}
 -----------------------------------------------------------------------
-### <b><font face="Palatino" size="2em" color="#000000">RQ: To what extent is the attitude towards gender representation in the music industry predicted by tone of the song and moderated by gender?</font></b>
+### <b><font size="3em" color="#000000">RQ: To what extent is the attitude towards gender representation in the music industry predicted by tone of the song and moderated by gender?</font></b>
 
 ```{r}
 ggplot(adding_attitude, aes(x = gender, y=attitude, fill = gender)) +
@@ -131,11 +133,11 @@ ggplot(adding_attitude, aes(x = gender, y=attitude, fill = gender)) +
 Column {.tabset data-width=175}
 -----------------------------------------------------------------------
 
-### Feminist
+### <font color="#000000">Feminist</font> 
 
 <iframe src="https://open.spotify.com/embed/playlist/7mWbXdE4Hky7MIt8BOjryX?utm_source=generator" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
-### Neutral
+### <font color="#000000">Neutral</font> 
 
 <iframe src="https://open.spotify.com/embed/playlist/2ttgDPSxCi9oPbOEQCrLvl?utm_source=generator" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
@@ -146,7 +148,7 @@ Methods
 Column {.tabset}
 -----------------------------------------------------------------------
 
-### GenderRep
+### <font color="#000000">GenderRep</font> 
 ```{r}
 #myPalette <- brewer.pal(7, "RdYlGn") 
 
@@ -175,7 +177,7 @@ ggplot(genderrep, aes(x=genderrep, y=Freq, fill=Gender)) +
   theme(axis.text.x=element_text(color="black",angle=30, vjust=.8, hjust=0.8))
 ```
 
-### IdealGenderRep
+### <font color="#000000">IdealGenderRep</font> 
 ```{r}
 ggplot(idealgenderrep, aes(x=idealgenderrep, y=Freq, fill=Gender)) +
   geom_bar(position="dodge", stat="identity", width=.5) + 
@@ -191,7 +193,7 @@ ggplot(idealgenderrep, aes(x=idealgenderrep, y=Freq, fill=Gender)) +
   theme(axis.text.x=element_text(color="black",angle=30, vjust=.8, hjust=0.8))
 ```
 
-### GenderRepImportant
+### <font color="#000000">GenderRepImportant</font> 
 ```{r}
 ggplot(genderrepimportant, aes(x=genderrepimportant, y=Freq, fill=Gender)) +
   geom_bar(position="dodge", stat="identity", width=.5) + 
@@ -219,11 +221,11 @@ Column
 </div>
 
 
-Results
+Songs
 ======================================================
 Column {.tabset data-width=650}
 -----------------------------------------------------------------------
-### Enjoyment
+### <font color="#000000">Enjoyment</font> 
 
 ```{r}
 averages %>%
@@ -232,9 +234,8 @@ averages %>%
   labs(
     x = "",
     y = "",
-    title = "Explanation",
     subtitle = " (Q1) I enjoyed the lyrics of this excerpt") +
-  scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+  scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
   theme_bw() +
   theme(
     text = element_text(family = "Palatino", size = 10, color="black"),
@@ -242,7 +243,7 @@ averages %>%
    scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
-### Equality
+### <font color="#000000">Equality</font> 
 
 ```{r}
 averages %>%
@@ -251,8 +252,7 @@ averages %>%
   labs(
     x = "",
     y = "",
-    title = "Explanation",
-    subtitle = " (Q2) I think these lyrics represented \n men and/or women fairly") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+    subtitle = " (Q2) I think these lyrics represented \n men and/or women fairly") + scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
   theme_bw() +
   theme(
     text = element_text(family = "Palatino", size = 10, color="black"),
@@ -261,7 +261,7 @@ averages %>%
 
 ```
 
-### Representation
+### <font color="#000000">Representation</font> 
 
 ```{r}
 averages %>%
@@ -270,8 +270,7 @@ averages %>%
   labs(
     x = "",
     y = "",
-    title = "Explanation",
-    subtitle = " (Q3) After listening to this excerpt, I feel positively \n about gender representation in music") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+    subtitle = " (Q3) After listening to this excerpt, I feel positively \n about gender representation in music") + scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
   theme_bw() +
   theme(
     text = element_text(family = "Palatino", size = 10, color="black"),
@@ -279,7 +278,7 @@ averages %>%
   scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
-### Included
+### <font color="#000000">Included</font> 
 
 ```{r}
 averages %>%
@@ -288,8 +287,7 @@ averages %>%
   labs(
     x = "",
     y = "",
-    title = "Explanation",
-    subtitle = " (Q4) I feel represented in the lyrics I just heard") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+    subtitle = " (Q4) I feel represented in the lyrics I just heard") + scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
   theme_bw() +
   theme(
     text = element_text(family = "Palatino", size = 10, color="black"),
@@ -297,7 +295,7 @@ averages %>%
   scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
-### Message
+### <font color="#000000">Message</font> 
 
 ```{r}
 averages %>%
@@ -306,8 +304,7 @@ averages %>%
   labs(
     x = "",
     y = "",
-    title = "Explanation",
-    subtitle = " (Q5) These lyrics create a positive message") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+    subtitle = " (Q5) These lyrics create a positive message") + scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
   theme_bw() +
   theme(
     text = element_text(family = "Palatino", size = 10, color="black"),
@@ -315,7 +312,7 @@ averages %>%
   scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
-### Uncomfortableness
+### <font color="#000000">Uncomfortableness</font> 
 
 ```{r}
 averages %>%
@@ -324,8 +321,7 @@ averages %>%
   labs(
     x = "",
     y = "",
-    title = "Explanation",
-    subtitle = " (Q6) These lyrics make me feel uncomfortable") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+    subtitle = " (Q6) These lyrics make me feel uncomfortable") + scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
   theme_bw() +
   theme(
     text = element_text(family = "Palatino", size = 10, color="black"),
@@ -333,7 +329,7 @@ averages %>%
   scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
-### Connotations
+### <font color="#000000">Connotations</font> 
 
 ```{r}
 averages %>%
@@ -342,8 +338,7 @@ averages %>%
   labs(
     x = "",
     y = "",
-    title = "Explanation",
-    subtitle = " (Q7) This excerpt had feminist connotations in its lyrics") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+    subtitle = " (Q7) This excerpt had feminist connotations in its lyrics") + scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
   theme_bw() +
   theme(
     text = element_text(family = "Palatino", size = 10, color="black"),
@@ -354,8 +349,14 @@ averages %>%
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Explanation
-
+### <font color="#000000">Explanation</font> 
+<p style="font-size:13px; color:black;">The questions displayed on this page compose the attitudinal scale designed for the sake of this project. Each tab contains a question, each question providing a crucial element of our scale. <br>
+<br>
+To determine a participant's attitude, we felt it was vital to understand the participants enjoyment, comfort levels and understanding of the lyrics. Perhaps the most surprising conclusion of our study was the variety in the responses to these songs regardless of the condition or gender of the participant. <br>
+<br>
+While there was a slightly stronger response to the positive message of the feminist lyrics as seen under the label “message”, the only other notable difference was whether the song contained feminist lyrics or not- a question intended to confirm our song selection the label “connotations. From this question we can confirm that participants identified between feminist and neutral lyrics, but their attitudes were not notably different per condition. <br>
+<br>
+We will discuss this further in our conclusion- but be sure to check out the different responses each song garnered per question.</p>
  
 
 
@@ -365,8 +366,9 @@ Evaluations
 ======================================================
 Column
 -----------------------------------------------------------------------
+### 
 <div style="position: relative; width: 100%; height: 0; padding-top: 300.0000%;
- padding-bottom: 48px; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+ padding-bottom: 48px; margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
  border-radius: 8px; will-change: transform;">
   <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
     src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAE3I37qkxU&#x2F;view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
@@ -375,8 +377,34 @@ Column
 
 Column
 -----------------------------------------------------------------------
+### <font color="#000000">Anova</font> 
 ```{r}
-#ggplot(as.data.frame(table(wide)), aes(x=gender, y = age)) + 
-  #  geom_bar(stat="identity")
+anova <- data.frame (
+  "Values" = c("(Intercept)", "Gender", "Song type", "Interaction", "Residuals"),
+  "Sum Sq" = c(39064,36,268,15,3514),
+  "df" = c(1,1,1,1,1),
+  "F value" = c("1678.60","1.53","11.50","0.65",""),
+  "p-value" = c("< 2.2 E-16", "0.22", "0.00089", "0.42", "")
+)
 
+knitr::kable(anova) %>%
+  kable_paper("hover", font_size = 12) %>%
+  row_spec(0, bold = T, color = "white", background = "#ff6666")
+```
+
+### <font color="#000000">T-Test</font> 
+```{r}
+t_test <- data.frame (
+  "Questions" = c("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "All"),
+  "Mean Neutral" = c(4.64,4.61,4.16,3.67,4.25,3.68,3.28,28.29),
+  "95% CI" = c("-0.72 ; -0.055","-0.074 ; 0.56","-0.36 ; 0.22","-0.92 ; -0.22","-1.03 ; -0.39","-0.31 ; 0.85","-1.94 ; -1.27","-4.37 ; -1.27"),
+  "t-value" = c(-2.31,1.52,-0.50,-3.19,-4.43,0.93,-9.47,-3.60),
+  "df" = c(149.07,137.32,142.46,147.39,139.27,152.71,150.78,147.43),
+  "p-value" = c(0.023,0.13,0.62,0.0017,"1.86E-05",0.35,"< 2.2 E-16","4.44E-04")
+)
+
+knitr::kable(t_test) %>%
+  kable_paper("hover", font_size = 12) %>%
+  row_spec(0, bold = T, color = "white", background = "#ff6666") %>%
+  row_spec(8, bold= T)
 ```
