@@ -33,6 +33,7 @@ adding_attitude <- wide %>%
   group_by(condition) %>%
   mutate(attitude=(Q1+Q2+Q3+Q4+Q5+Q6+Q7)/7)
 
+#Gender Representation
 genderrepMale <- wide %>%
   filter(gender=="Male") %>%
   count(genderrep) %>%
@@ -46,6 +47,36 @@ genderrepFemale <- wide %>%
   mutate(Gender = "Female")
 
 genderrep <- rbind(genderrepMale,genderrepFemale) 
+
+# Ideal Gender Representation
+idealgenderrepMale <- wide %>%
+  filter(gender=="Male") %>%
+  count(idealgenderrep) %>%
+  mutate(Freq = n/sum(n)*100) %>%
+  mutate(Gender = "Male")
+
+idealgenderrepFemale <- wide %>%
+  filter(gender=="Female") %>%
+  count(idealgenderrep) %>%
+  mutate(Freq = n/sum(n)*100) %>%
+  mutate(Gender = "Female")
+
+idealgenderrep <- rbind(idealgenderrepMale,idealgenderrepFemale) 
+
+# Gender Representation Importance
+genderrepimportantMale <- wide %>%
+  filter(gender=="Male") %>%
+  count(genderrepimportant) %>%
+  mutate(Freq = n/sum(n)*100) %>%
+  mutate(Gender = "Male")
+
+genderrepimportantFemale <- wide %>%
+  filter(gender=="Female") %>%
+  count(genderrepimportant) %>%
+  mutate(Freq = n/sum(n)*100) %>%
+  mutate(Gender = "Female")
+
+genderrepimportant <- rbind(genderrepimportantMale,genderrepimportantFemale) 
 ```
 
 
@@ -67,11 +98,12 @@ RQ: To what extent is the attitude towards gender representation in the music in
 <p style="font-size:13px;">The power of music lyrics is one that has always had quite an effect on me and my mood in many ways. I have always had specific songs that I refer to for whatever mood I’m in because the lyrics hold a certain power to change my mood or mindset. Feminist lyrics often carry an important message for all people to hear, not just women- I wanted to see if everyone listened!</p>
 
 <i>Roos</i><br>
-<p style="font-size:13px;">bla bla bla</p>
+<p style="font-size:13px;">From when I was a small kid, I have always enjoyed music to the fullest. At age 7, I was given an off-brand iPod for Christmas that I used tirelessly for years, I was enrolled in dance classes throughout primary school, and in high school, I took my dance and music courses just as seriously as the regular ones. Being able to continue learning about music and music listening throughout this course, but in a more academic way, has been a wonderful experience and has inspired me to look into musicology as a possible future field of study.</p>
 
 <i>Selma</i><br>
-<p style="font-size:13px;">The way a message can be forwarded through music lyrics 
+<p style="font-size:13px;"> I find the way a message can be spread through music lyrics and make an impact very intriguing. Thus
 </p>
+
 <i>Sonya</i><br>
 <p style="font-size:13px;">From an early age, I have been actively seeking every opportunity to tie music into my life: I have been playing various musical instruments and singing, participating in numerous talent shows and school musicals, attending concerts, volunteering as a music teacher at an orphanage in Vietnam, and collaborating with my friends on musical production. Growing up abroad and having to navigate through life in a country that’s my own but not entirely, made me rely more heavily on music - a universal language. The Data Science of Everyday Music Listening has transformed my intuitive understanding of music into an empirical and academic understanding of it, which has been enlightening.</p>
 
@@ -79,7 +111,7 @@ RQ: To what extent is the attitude towards gender representation in the music in
 
 Column {data-width=500}
 -----------------------------------------------------------------------
-### Attitude difference
+### <b><font face="Palatino" size="2em" color="#000000">RQ: To what extent is the attitude towards gender representation in the music industry predicted by tone of the song and moderated by gender?</font></b>
 
 ```{r}
 ggplot(adding_attitude, aes(x = gender, y=attitude, fill = gender)) +
@@ -108,10 +140,88 @@ Column {.tabset data-width=175}
 <iframe src="https://open.spotify.com/embed/playlist/2ttgDPSxCi9oPbOEQCrLvl?utm_source=generator" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
 
 
+Methods
+======================================================
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### GenderRep
+```{r}
+#myPalette <- brewer.pal(7, "RdYlGn") 
+
+#ggplot(genderrepMale, aes(fill = genderrep, values = Freq)) +
+#  geom_waffle(n_rows = 10, size = 0.33, colour = "white") +
+#  scale_fill_manual(name = NULL, values = myPalette,
+#     labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree")) + coord_equal() + theme_void() +labs(title = "Male")
+
+#ggplot(genderrepFemale, aes(fill = genderrep, values = Freq)) +
+#  geom_waffle(n_rows = 10, size = 0.33, colour = "white") +
+#  scale_fill_manual(name = NULL, values = myPalette,
+#     labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree")) + coord_equal() + theme_void() + labs(title = "Female")
+
+
+ggplot(genderrep, aes(x=genderrep, y=Freq, fill=Gender)) +
+  geom_bar(position="dodge", stat="identity", width=.5) + 
+  labs(
+    x = "",
+    y = "Percentage",
+    title = "Men and women are equally represented in music today") +
+  scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
+  theme_bw() + 
+    theme(
+    text = element_text(family = "Palatino", size = 10, color="black")) +
+  scale_x_continuous(breaks=c(1,2,3, 4, 5, 6, 7), labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree"), limits=c(0,8)) + 
+  theme(axis.text.x=element_text(color="black",angle=30, vjust=.8, hjust=0.8))
+```
+
+### IdealGenderRep
+```{r}
+ggplot(idealgenderrep, aes(x=idealgenderrep, y=Freq, fill=Gender)) +
+  geom_bar(position="dodge", stat="identity", width=.5) + 
+  labs(
+    x = "",
+    y = "Percentage",
+    title = "Men and women should be equally represented in music today") +
+  scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
+  theme_bw() + 
+    theme(
+    text = element_text(family = "Palatino", size = 10, color="black")) +
+  scale_x_continuous(breaks=c(1,2,3, 4, 5, 6, 7), labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree"), limits=c(0,8)) + 
+  theme(axis.text.x=element_text(color="black",angle=30, vjust=.8, hjust=0.8))
+```
+
+### GenderRepImportant
+```{r}
+ggplot(genderrepimportant, aes(x=genderrepimportant, y=Freq, fill=Gender)) +
+  geom_bar(position="dodge", stat="identity", width=.5) + 
+  labs(
+    x = "",
+    y = "Percentage",
+    title = "Gender representation in music is very important to me") +
+  scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
+  theme_bw() + 
+    theme(
+    text = element_text(family = "Palatino", size = 10, color="black")) +
+  scale_x_continuous(breaks=c(1,2,3, 4, 5, 6, 7), labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree"), limits=c(0,8)) + 
+  theme(axis.text.x=element_text(color="black",angle=30, vjust=.8, hjust=0.8))
+```
+
+Column 
+-----------------------------------------------------------------------
+###
+<div style="position: relative; width: 100%; height: 0; padding-top: 133.3333%;
+ padding-bottom: 48px; margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+ border-radius: 8px; will-change: transform;">
+  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+    src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAE3IlLVzP0&#x2F;view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+  </iframe>
+</div>
+
 
 Results
 ======================================================
-Column {.tabset data-width=800}
+Column {.tabset data-width=650}
 -----------------------------------------------------------------------
 ### Enjoyment
 
@@ -241,104 +351,32 @@ averages %>%
   scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
-Column {data-width=200}
+Column {data-width=350}
 -----------------------------------------------------------------------
+
 ### Explanation
 
+ 
 
-Methods
-======================================================
 
-Column
------------------------------------------------------------------------
 
-### Infographics, materials and procedure
-<p style="font-size:"10px">Men and women are equally represented in music today</p>
-```{r figures-side, fig.show="hold", out.width="50%"}
-
-myPalette <- brewer.pal(7, "RdYlGn") 
-
-ggplot(genderrepMale, aes(fill = genderrep, values = Freq)) +
-  geom_waffle(n_rows = 10, size = 0.33, colour = "white") +
-  scale_fill_manual(name = NULL,
-                    values = myPalette,
-                    labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree")) + coord_equal() + theme_void() +labs(title = "Male")
-
-ggplot(genderrepFemale, aes(fill = genderrep, values = Freq)) +
-  geom_waffle(n_rows = 10, size = 0.33, colour = "white") +
-  scale_fill_manual(name = NULL,
-                    values = myPalette,
-                    labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree")) +
-  coord_equal() +
-  theme_void() +
-  labs(
-    title = "Female"
-  )
-
-```
-
-### Infographics, materials and procedure
-```{r}
-ggplot(genderrep, aes(x=genderrep, y=Freq, fill=Gender)) +
-  geom_bar(position="dodge", stat="identity", width=.5) + 
-  labs(
-    x = "",
-    y = "Percentage",
-    title = "Men and women are equally represented in music today") +
-  scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
-  theme_bw() + 
-    theme(
-    text = element_text(family = "Palatino", size = 10, color="black")) +
-  scale_x_continuous(breaks=c(1,2,3, 4, 5, 6, 7), labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree"), limits=c(0,8)) + 
-  theme(axis.text.x=element_text(color="black",angle=30, vjust=.8, hjust=0.8))
-```
-
-Column 
------------------------------------------------------------------------
-###
-<div style="position: relative; width: 100%; height: 0; padding-top: 133.3333%;
- padding-bottom: 48px; margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
- border-radius: 8px; will-change: transform;">
-  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
-    src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAE3IlLVzP0&#x2F;view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
-  </iframe>
-</div>
 
 Evaluations
 ======================================================
 Column
 -----------------------------------------------------------------------
-
-### Conclusion
-
-```{r}
-
-```
+<div style="position: relative; width: 100%; height: 0; padding-top: 300.0000%;
+ padding-bottom: 48px; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+ border-radius: 8px; will-change: transform;">
+  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+    src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAE3I37qkxU&#x2F;view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+  </iframe>
+</div>
 
 Column
 -----------------------------------------------------------------------
+```{r}
+#ggplot(as.data.frame(table(wide)), aes(x=gender, y = age)) + 
+  #  geom_bar(stat="identity")
 
-### Limitations
-<b>Sample</b>:<br>
-<i>Gender distribution</i>:<br>
-The total sample contained entries from 99 women, 63 men and 8 non-binary people. Because of the low amount of non-binary respondents, these entries were not taken into account in the final sample. Because of this, the results only show comparisons of people that identify within the traditional gender binary. This does not show a complete picture of the actual population and is an interesting topic to explore within future research.<br>
-After filtering for unusable entries, entries from 98 women and 57 men remained. These amounts differ from each other quite a bit but are compared within our analysis regardless. The difference in sample size could possibly act as a confounder and be responsible for some of the found differences in attitude.<br>
-<br>
-<i>Mostly European participants</i>:<br>
-When asked about their continent of origin, by far the most participants (137) responded with Europe. The found results are thus not applicable for all countries or cultures, but mostly for Western countries.<br>
-<br>
-<b>Survey</b>:<br>
-<i>English proficiency</i>:<br>
-Because we did not ask the participants about their level of English, we have no way to control this. A considerable amount of our survey refers to the interpretation of song lyrics, so if these lyrics are not understood correctly this might have influenced the results.<br>
-<br>
-<i>Actual listening</i>:<br>
-Within Qualtrics, there is no way to check if a participant has actually listened to the song excerpt, and has read the lyrics.
-
-
-### Further Research
-1. Predisposition<br>
-Investigate someone’s existing predisposition towards feminism/gender representation as a predictor of their attitude toward gender representation in the music industry (post exposure to feminist-toned songs).<br>
-<br>
-2. Priming<br> 
-Priming participant with facts about gender representation (not just in the music industry, but in general), before exposure to the feminist-tones song or the control-condition song. Investigate whether priming would influence the participant’s attitude towards gender representation in the music industry.
-
+```
