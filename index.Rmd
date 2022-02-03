@@ -103,7 +103,7 @@ RQ: To what extent is the attitude towards gender representation in the music in
 <p style="font-size:13px; color:black;">From when I was a small kid, I have always enjoyed music to the fullest. At age 7, I was given an off-brand iPod for Christmas that I used tirelessly for years, I was enrolled in dance classes throughout primary school, and in high school, I took my dance and music courses just as seriously as the regular ones. Being able to continue learning about music and music listening throughout this course, but in a more academic way, has been a wonderful experience and has inspired me to look into musicology as a possible future field of study.</p>
 
 <i><p style="color:black;">Selma</p></i>
-<p style="font-size:13px; color:black;">Music has always been a part of my life for as long as I can remember and I find the way a message can be spread through music lyrics and make an impact very intriguing. Therefore the choice to conduct a study concerning the impact feminist connotations in music have on the user was sound.  
+<p style="font-size:13px; color:black;">Music has always been a part of my life for as long as I can remember and I find the way a message can be spread through music lyrics and make an impact very intriguing. Therefore the choice to conduct a study concerning the impact feminist connotations in music have on the user was irrefutable.  
 </p>
 
 <i><p style="color:black;">Sonya</p></i>
@@ -396,8 +396,9 @@ knitr::kable(anova) %>%
 ```{r}
 t_test <- data.frame (
   "Questions" = c("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "All"),
+  "Mean Feminist" = c(5.02,4.36,4.24,4.24,4.96,3.41,4.88,31.11),
   "Mean Neutral" = c(4.64,4.61,4.16,3.67,4.25,3.68,3.28,28.29),
-  "95% CI" = c("-0.72 ; -0.055","-0.074 ; 0.56","-0.36 ; 0.22","-0.92 ; -0.22","-1.03 ; -0.39","-0.31 ; 0.85","-1.94 ; -1.27","-4.37 ; -1.27"),
+  "The 95 percent CI" = c("-0.72 ; -0.055","-0.074 ; 0.56","-0.36 ; 0.22","-0.92 ; -0.22","-1.03 ; -0.39","-0.31 ; 0.85","-1.94 ; -1.27","-4.37 ; -1.27"),
   "t-value" = c(-2.31,1.52,-0.50,-3.19,-4.43,0.93,-9.47,-3.60),
   "df" = c(149.07,137.32,142.46,147.39,139.27,152.71,150.78,147.43),
   "p-value" = c(0.023,0.13,0.62,0.0017,"1.86E-05",0.35,"< 2.2 E-16","4.44E-04")
