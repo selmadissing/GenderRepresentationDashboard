@@ -4,9 +4,7 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
-    #source_code: embed
     theme: journal
-
     css: style.css
     self_contained: false
 ---
@@ -35,57 +33,51 @@ adding_attitude <- wide %>%
   group_by(condition) %>%
   mutate(attitude=(Q1+Q2+Q3+Q4+Q5+Q6+Q7)/7)
 
-
-what <- wide %>%
+genderrepMale <- wide %>%
   filter(gender=="Male") %>%
-  arrange(genderrep) %>%
-  group_by(genderrep) %>%
-  summarise(n = n()) %>%
-  mutate(num = sum(n))
+  count(genderrep) %>%
+  mutate(Freq = n/sum(n)*100) %>%
+  mutate(Gender = "Male")
 
-df2 <- wide %>%
+genderrepFemale <- wide %>%
   filter(gender=="Female") %>%
-  arrange(genderrep) %>%
-  group_by(genderrep) %>%
-  summarise(n = n()) %>%
-  mutate(Freq = n/sum(n))
+  count(genderrep) %>%
+  mutate(Freq = n/sum(n)*100) %>%
+  mutate(Gender = "Female")
 
+genderrep <- rbind(genderrepMale,genderrepFemale) 
 ```
-
-
 
 
 Introduction
 ======================================================
 
-Column {data-width=175}
+Column {data-width=185}
 -----------------------------------------------------------------------
 
 ### Introduction 
-Gender representation should be considered across all professional fields, and the music industry is not an exception. Despite the fact that there are definitely female music superstars, the music industry remains a place with not much female representation (Bernabé-Villodre et al., 2018). Female artists are seen changing their public image, transitioning from one “era” in their career to another to stay relevant, whilst that is rarely the case for male artists. The dopamine-stimulatory threshold among listeners is lower for male music artists rather than female music artists, as male artists can stay in the same genre for ages and still stay desirable. Furthermore, 98% of producers in the music industry are male (Statista, 2021).<br>
+<p style="font-size:13px;">Gender representation should be considered across all professional fields, and the music industry is not an exception. Despite the fact that there are definitely female music superstars, the music industry remains a place with not much female representation (Bernabé-Villodre et al., 2018). Female artists are seen changing their public image, transitioning from one “era” in their career to another to stay relevant, whilst that is rarely the case for male artists. The dopamine-stimulatory threshold among listeners is lower for male music artists rather than female music artists, as male artists can stay in the same genre for ages and still stay desirable. Furthermore, 98% of producers in the music industry are male (Statista, 2021).<br>
 <br>
 Despite the aforementioned information, the lack of gender representation remains a mystery to many, due to the fact some of the loudest musicians are female. However, that is not the case for all levels of fame, and our study aims to investigate attitude towards gender representation in the music industry, following exposure to songs with a feminist tone. We also want to see whether the attitude would be different among men and women. Therefore, the following research question was formulated:<br>
 <br>
-RQ: To what extent is the attitude towards gender representation in the music industry predicted by tone of the song and moderated by gender?
+RQ: To what extent is the attitude towards gender representation in the music industry predicted by tone of the song and moderated by gender?</p>
 
 ### Motivation
 <i>Ellie</i><br>
-bla bla bla
+<p style="font-size:13px;">The power of music lyrics is one that has always had quite an effect on me and my mood in many ways. I have always had specific songs that I refer to for whatever mood I’m in because the lyrics hold a certain power to change my mood or mindset. Feminist lyrics often carry an important message for all people to hear, not just women- I wanted to see if everyone listened!</p>
 
 <i>Roos</i><br>
-bla bla bla
+<p style="font-size:13px;">bla bla bla</p>
 
 <i>Selma</i><br>
-bla bla bla
-
+<p style="font-size:13px;">The way a message can be forwarded through music lyrics 
+</p>
 <i>Sonya</i><br>
-bla bla bla
+<p style="font-size:13px;">From an early age, I have been actively seeking every opportunity to tie music into my life: I have been playing various musical instruments and singing, participating in numerous talent shows and school musicals, attending concerts, volunteering as a music teacher at an orphanage in Vietnam, and collaborating with my friends on musical production. Growing up abroad and having to navigate through life in a country that’s my own but not entirely, made me rely more heavily on music - a universal language. The Data Science of Everyday Music Listening has transformed my intuitive understanding of music into an empirical and academic understanding of it, which has been enlightening.</p>
 
 
 
-
-
-Column {.tabset data-width=500}
+Column {data-width=500}
 -----------------------------------------------------------------------
 ### Attitude difference
 
@@ -95,31 +87,14 @@ ggplot(adding_attitude, aes(x = gender, y=attitude, fill = gender)) +
   labs(
     x = "Gender",
     y = "Attitude") +
-  scale_fill_manual(values=c("#F25C54", "#F7B267")) +
+  scale_fill_manual(name="Gender", values=c("#F25C54", "#F7B267")) +
   theme_bw() + 
     theme(
-    text = element_text(family = "Palatino", size = 10))
+    text = element_text(family = "Palatino", size = 10, color="black"),
+    axis.text=element_text(color="black"))
 ```
 
-### Difference in gender representation in lyrics
 
-```{r}
-come <- averages_both %>%
-  group_by(Gender) 
-
-ggplot(come, aes(x = Song, y=Q4, fill = Gender)) +
-  geom_bar(position="dodge", stat="identity") +
-  coord_flip() +
-  labs(
-    x = "",
-    y = "Scale",
-    caption = "lol") +
-  scale_fill_manual(values=c("#4BC5BA", "#7D4BC5")) +
-  theme_bw() +
-    theme(
-    text = element_text(family = "Palatino", size = 10))
-
-```
 
 Column {.tabset data-width=175}
 -----------------------------------------------------------------------
@@ -143,17 +118,18 @@ Column {.tabset data-width=800}
 ```{r}
 averages %>%
   mutate(Song = fct_reorder(Song, desc(Order))) %>%
-  ggplot(aes(x=Song, y=Q1, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + ylim(0,6) + 
+  ggplot(aes(x=Song, y=Q1, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + 
   labs(
     x = "",
-    y = "Scale",
+    y = "",
     title = "Explanation",
     subtitle = " (Q1) I enjoyed the lyrics of this excerpt") +
   scale_fill_manual(values=c("#ff6699", "#93C54B")) +
   theme_bw() +
   theme(
-    text = element_text(family = "Palatino", size = 9)
-  )
+    text = element_text(family = "Palatino", size = 10, color="black"),
+    axis.text=element_text(color="black")) +
+   scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
 ### Equality
@@ -161,7 +137,17 @@ averages %>%
 ```{r}
 averages %>%
   mutate(Song = fct_reorder(Song, desc(Order))) %>%
-  ggplot(aes(x=Song, y=Q2, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw() + ylim(0,6) + ggtitle("I think these lyrics represented \n men and/or women fairly")
+  ggplot(aes(x=Song, y=Q2, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() +
+  labs(
+    x = "",
+    y = "",
+    title = "Explanation",
+    subtitle = " (Q2) I think these lyrics represented \n men and/or women fairly") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+  theme_bw() +
+  theme(
+    text = element_text(family = "Palatino", size = 10, color="black"),
+    axis.text=element_text(color="black")) +
+   scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 
 ```
 
@@ -170,7 +156,17 @@ averages %>%
 ```{r}
 averages %>%
   mutate(Song = fct_reorder(Song, desc(Order))) %>%
-  ggplot(aes(x=Song, y=Q3, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("After listening to this excerpt, I feel positively \n about gender representation in music")
+  ggplot(aes(x=Song, y=Q3, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() +
+  labs(
+    x = "",
+    y = "",
+    title = "Explanation",
+    subtitle = " (Q3) After listening to this excerpt, I feel positively \n about gender representation in music") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+  theme_bw() +
+  theme(
+    text = element_text(family = "Palatino", size = 10, color="black"),
+    axis.text=element_text(color="black")) +
+  scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
 ### Included
@@ -178,7 +174,17 @@ averages %>%
 ```{r}
 averages %>%
   mutate(Song = fct_reorder(Song, desc(Order))) %>%
-  ggplot(aes(x=Song, y=Q4, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("I feel represented in the lyrics I just heard")
+  ggplot(aes(x=Song, y=Q4, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() +
+  labs(
+    x = "",
+    y = "",
+    title = "Explanation",
+    subtitle = " (Q4) I feel represented in the lyrics I just heard") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+  theme_bw() +
+  theme(
+    text = element_text(family = "Palatino", size = 10, color="black"),
+    axis.text=element_text(color="black")) + 
+  scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
 ### Message
@@ -186,7 +192,17 @@ averages %>%
 ```{r}
 averages %>%
   mutate(Song = fct_reorder(Song, desc(Order))) %>%
-  ggplot(aes(x=Song, y=Q5, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("These lyrics create a positive message")
+  ggplot(aes(x=Song, y=Q5, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() +
+  labs(
+    x = "",
+    y = "",
+    title = "Explanation",
+    subtitle = " (Q5) These lyrics create a positive message") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+  theme_bw() +
+  theme(
+    text = element_text(family = "Palatino", size = 10, color="black"),
+    axis.text=element_text(color="black")) +
+  scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
 ### Uncomfortableness
@@ -194,7 +210,17 @@ averages %>%
 ```{r}
 averages %>%
   mutate(Song = fct_reorder(Song, desc(Order))) %>%
-  ggplot(aes(x=Song, y=Q6, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("These lyrics make me feel uncomfortable")
+  ggplot(aes(x=Song, y=Q6, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() +
+  labs(
+    x = "",
+    y = "",
+    title = "Explanation",
+    subtitle = " (Q6) These lyrics make me feel uncomfortable") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+  theme_bw() +
+  theme(
+    text = element_text(family = "Palatino", size = 10, color="black"),
+    axis.text=element_text(color="black")) +
+  scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
 ### Connotations
@@ -202,7 +228,17 @@ averages %>%
 ```{r}
 averages %>%
   mutate(Song = fct_reorder(Song, desc(Order))) %>%
-  ggplot(aes(x=Song, y=Q7, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() + xlab("") + ylab("Scale") + theme_bw()  + ylim(0,6) + ggtitle("This excerpt had feminist connotations in its lyrics")
+  ggplot(aes(x=Song, y=Q7, fill=Condition)) + geom_col(stat="identity", width=.4) + coord_flip() +
+  labs(
+    x = "",
+    y = "",
+    title = "Explanation",
+    subtitle = " (Q7) This excerpt had feminist connotations in its lyrics") + scale_fill_manual(values=c("#ff6699", "#93C54B")) +
+  theme_bw() +
+  theme(
+    text = element_text(family = "Palatino", size = 10, color="black"),
+    axis.text=element_text(color="black")) +
+  scale_y_continuous(breaks=c(1, 2, 3, 4, 5, 6, 7), labels=c("Strongly Disagree", "", "", "", "", "", "Strongly Agree"), limits=c(0,8))
 ```
 
 Column {data-width=200}
@@ -217,24 +253,44 @@ Column
 -----------------------------------------------------------------------
 
 ### Infographics, materials and procedure
+<p style="font-size:"10px">Men and women are equally represented in music today</p>
 ```{r figures-side, fig.show="hold", out.width="50%"}
 
-#myPalette <- brewer.pal(7, "Set2") 
-#piepercentMale<- round(100*df$Freq/sum(df$Freq), 1)
-#piepercentFemale<- round(100*df2$Freq/sum(df2$Freq), 1)
+myPalette <- brewer.pal(7, "RdYlGn") 
 
-#pie(df$Freq , main="Male", labels = piepercentMale,  border="white", col=myPalette)
-#pie(df2$Freq , main="Female", labels = piepercentFemale,  border="white", col=myPalette)
-#legend("topright", c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree"), cex = 0.4,
-   #fill = myPalette)
-
-ggplot(what, aes(fill = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree"), values = what$num)) +
-  geom_waffle(n_rows = 16, size = 0.33, colour = "white") +
+ggplot(genderrepMale, aes(fill = genderrep, values = Freq)) +
+  geom_waffle(n_rows = 10, size = 0.33, colour = "white") +
   scale_fill_manual(name = NULL,
-                    values = c("#ffb3cc", "#ff99bb", "#ff80aa", "#ff6699", "#ff4d88", "#ff3377", "#ff1a66"),
+                    values = myPalette,
+                    labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree")) + coord_equal() + theme_void() +labs(title = "Male")
+
+ggplot(genderrepFemale, aes(fill = genderrep, values = Freq)) +
+  geom_waffle(n_rows = 10, size = 0.33, colour = "white") +
+  scale_fill_manual(name = NULL,
+                    values = myPalette,
                     labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree")) +
   coord_equal() +
-  theme_void()
+  theme_void() +
+  labs(
+    title = "Female"
+  )
+
+```
+
+### Infographics, materials and procedure
+```{r}
+ggplot(genderrep, aes(x=genderrep, y=Freq, fill=Gender)) +
+  geom_bar(position="dodge", stat="identity", width=.5) + 
+  labs(
+    x = "",
+    y = "Percentage",
+    title = "Men and women are equally represented in music today") +
+  scale_fill_manual(values=c("#ffcc66", "#ff6666")) +
+  theme_bw() + 
+    theme(
+    text = element_text(family = "Palatino", size = 10, color="black")) +
+  scale_x_continuous(breaks=c(1,2,3, 4, 5, 6, 7), labels = c("Strongly Disagree","Disagree","Somewhat disagree","Neither agree nor disagree","Somewhat agree", "Agree", "Strongly Agree"), limits=c(0,8)) + 
+  theme(axis.text.x=element_text(color="black",angle=30, vjust=.8, hjust=0.8))
 ```
 
 Column 
@@ -247,7 +303,6 @@ Column
     src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAE3IlLVzP0&#x2F;view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
   </iframe>
 </div>
-
 
 Evaluations
 ======================================================
