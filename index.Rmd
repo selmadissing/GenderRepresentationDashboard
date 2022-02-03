@@ -103,7 +103,7 @@ RQ: To what extent is the attitude towards gender representation in the music in
 <p style="font-size:13px; color:black;">From when I was a small kid, I have always enjoyed music to the fullest. At age 7, I was given an off-brand iPod for Christmas that I used tirelessly for years, I was enrolled in dance classes throughout primary school, and in high school, I took my dance and music courses just as seriously as the regular ones. Being able to continue learning about music and music listening throughout this course, but in a more academic way, has been a wonderful experience and has inspired me to look into musicology as a possible future field of study.</p>
 
 <i><p style="color:black;">Selma</p></i>
-<p style="font-size:13px; color:black;"> I find the way a message can be spread through music lyrics and make an impact very intriguing. Thus
+<p style="font-size:13px; color:black;">Music has always been a part of my life for as long as I can remember and I find the way a message can be spread through music lyrics and make an impact very intriguing. Therefore the choice to conduct a study concerning the impact feminist connotations in music have on the user was sound.  
 </p>
 
 <i><p style="color:black;">Sonya</p></i>
@@ -113,7 +113,7 @@ RQ: To what extent is the attitude towards gender representation in the music in
 
 Column {data-width=500}
 -----------------------------------------------------------------------
-### <b><font size="3em" color="#000000">RQ: To what extent is the attitude towards gender representation in the music industry predicted by tone of the song and moderated by gender?</font></b>
+### <b><font face="FreeMono" size="4em" color="#000000">RQ: To what extent is the attitude towards gender representation in the music industry predicted by tone of the song and moderated by gender?</font></b>
 
 ```{r}
 ggplot(adding_attitude, aes(x = gender, y=attitude, fill = gender)) +
@@ -121,7 +121,7 @@ ggplot(adding_attitude, aes(x = gender, y=attitude, fill = gender)) +
   labs(
     x = "Gender",
     y = "Attitude") +
-  scale_fill_manual(name="Gender", values=c("#F25C54", "#F7B267")) +
+  scale_fill_manual(name="Gender", values=c("#ffcc66", "#ff6666")) +
   theme_bw() + 
     theme(
     text = element_text(family = "Palatino", size = 10, color="black"),
